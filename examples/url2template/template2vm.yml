@@ -1,4 +1,3 @@
----
 # Run as
 # ansible-playbook -i localhost, -i examples/url2template/hypercore.yml examples/url2template/template2vm.yml -v
 
@@ -8,7 +7,7 @@
   gather_facts: false
   vars:
     vm_group: test-clones
-    source_vm_name: ubuntu-22.04-server-cloudimg-amd64.img
+    source_vm_name: noble-server-cloudimg-amd64.img
     vm_name: "{{ vm_group }}-server-0"
     description: created from {{ source_vm_name }}
     vcpu: 4
@@ -16,7 +15,7 @@
     disk_size: "{{ '20 GB' | human_to_bytes }}"
     #
     # do we have ens1 or enp1s0 or something else
-    vm_network_iface: ens3
+    vm_network_iface: enp3s0
     # DHCP IP address from DHCP
     vm_network_mode: dhcp
     # vm_network_mode: "static"
@@ -28,9 +27,9 @@
 
     # Add your ssh public key for publickey authentication
     vm_ssh_authorized_keys:
-      - ssh-ed25519 rest-of-you-ssh-key-here...
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCkzJTat6lQTSFn6ECrlNTYMrKCPqz+muEdRrHlmOmLaPvTFysqDlUUoKf9y8qiPhw2TIImG3Zqrh4szdLqEQqsGu+078xHEB9hsHaC4NLCMOCZj5OncwfBtkLBkecjaEJjCAnzrQa1USaekWIDgYOkSun/EHfhHBzbshTQKqnK8D/xrjWWKh61c4hqiLnVxq+AE583NSrlPrdaH7jVavCl1PQsBj+PbxVJbycmTeLX+wtO/2SeTkvApdfmSGwxuj+9J3kra8KKLZOruBSmu/oaAsdeJxHCG6GqoN9w3p0awEw44ahunlJqdC+4+8jr1v2G5Fs21/nE7ArTnzcs8okJVqFkhk3cr0vuoSALZcPK280NND0JNy9AePePciVLzMsb37EyZYP0CzcN2IYb2mHmEiAbzfsRyCE4kQctjlZowqDxe8cRvD7b9qBJ047Sh3MYXQbFKHaHrgrE0xC33Y+LnDY9log26VCFFqnHY/GHyMNtlNmC1o+xNf3kGhBVDuH9wScRg9ZccYOkQodUdKnxPk0HWbsZjuKYRCy/GkZ/dLSUIMqbAlHoT15SDueloFnRqpw6cNu4nDR4o7fr7kBb7lpePpg7USsLDlyK3r/JipMpHDexNC/ZpIY/DlbGoSduZs2WO/uc1Ar0i1K+aiu3ldXwpbnCfZ4aJNc4irbhxQ== adminlucid@dtc-lxmgm-01
     # Import SSH key from github.com
-    vm_ssh_import_id: ""
+    vm_ssh_import_id: "adminlucid"
     # vm_ssh_import_id: "gh:your_username"
 
   tasks:
@@ -72,3 +71,4 @@
         name: scale_computing.hypercore.template2vm
         tasks_from: wait_vm_boot_tasks.yml
       loop: "{{ range(10) }}"
+
